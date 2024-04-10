@@ -45,6 +45,8 @@ def strava_callback(code: str, db: Session = Depends(get_db)):
     refresh_token = response.get('refresh_token')
     expires_at = response.get('expires_at')
 
+    first_name = response.get('athlete', {}).get('firstname', 'Default First Name')
+
     print(f'strava_callback: retrieve access token {access_token}')
     print(f"strava id: {strava_id}")
 
@@ -59,6 +61,7 @@ def strava_callback(code: str, db: Session = Depends(get_db)):
     else:
         user = User(
             username=f"strava_{strava_id}",
+            first_name=first_name,
             email='',
             hashed_password="dummy",
             strava_id=strava_id,
