@@ -72,3 +72,10 @@ async def test_signup_method_not_allowed(method):
         response = await request("/signup")
         assert response.status_code == 405
     
+@pytest.mark.asyncio
+async def test_signup_injection_security(monkeypatch):
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as ac:
+        monkeypatch.setenv("STRAVA_CLIENT_ID", "<script>alert('test')</script>")
+        response = await ac.get("/signup")
+        assert "<script>" not in response.headers.get("location")
+        assert "%3Cscript%3E" in response.headers.get("location"), "Script tags should be percent-encoded in URLs"
