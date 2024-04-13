@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from alembic import context
 
 import os
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -18,6 +19,7 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 from app.models.base import Base
+
 target_metadata = Base.metadata
 # target_metadata = None
 
@@ -50,17 +52,19 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
+
 # Get environment variables
-user = os.getenv('POSTGRES_USER')
-password = os.getenv('POSTGRES_PASSWORD')
+user = os.getenv("POSTGRES_USER")
+password = os.getenv("POSTGRES_PASSWORD")
 host = "postgres"
-db = os.getenv('POSTGRES_DB')
+db = os.getenv("POSTGRES_DB")
 
 if not all([user, password, host, db]):
     raise ValueError("Database configuration is incomplete.")
 
 # Construct the SQLALCHEMY_DATABASE_URI dynamically
 SQLALCHEMY_DATABASE_URI = f"postgresql://{user}:{password}@{host}/{db}"
+
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode.

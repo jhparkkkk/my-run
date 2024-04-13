@@ -2,6 +2,7 @@ from .base import Base
 from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
+
 class User(Base):
     __tablename__ = "users"
 
@@ -14,4 +15,4 @@ class User(Base):
     strava_id = Column(String, unique=True, nullable=True)
     strava_access_token = Column(String, nullable=True)
     strava_refresh_token = Column(String, nullable=True)
-    strava_expires_at = Column(Integer, nullable=True) 
+    strava_expires_at = Column(Integer, nullable=True)
